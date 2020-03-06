@@ -1,0 +1,36 @@
+# this script intends to create a unique list of all the existed different questionnaires
+
+import pandas as pd
+import numpy as np
+
+# all exported Dictionaries
+cis = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\CIS_Data.csv''')
+doreme = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\DoReMe_Data.csv''')
+neuromet = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\NeuroMET2_Data.csv''')
+nmo = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\NMO_Data.csv''')
+sunimud = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\SUNIMUD_Data.csv''')
+symone = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\SyMoNe_Data.csv''')
+vims = pd.read_csv(r'''C:\Users\cohendh\Desktop\RedCap_Exportdaten\all_dics\VIMS_Data.csv''')
+# creating one long list with the column 'Form Name' out of all the data frames above
+allform_list = cis['Form Name'].tolist() + doreme['Form Name'].tolist() + doreme['Form Name'].tolist() + neuromet['Form Name'].tolist() + nmo['Form Name'].tolist() + sunimud['Form Name'].tolist() + symone['Form Name'].tolist() + vims['Form Name'].tolist()
+
+def removeDuplicates(listofElements):
+    # Creates an empty list to store unique elements
+    uniqueList = []
+
+    # Iterate over the original list and for each element
+    # add it to uniqueList, if its not already there.
+    for elem in listofElements:
+        if elem not in uniqueList:
+            uniqueList.append(elem)
+    # Return the list of unique elements
+    return uniqueList
+
+unique_allform = removeDuplicates(allform_list)
+unique_allform_atoz = sorted(unique_allform)
+df_final=  pd.DataFrame(unique_allform_atoz, columns=['Fragenbogen'])
+export_csv = df_final.to_csv('export_csv.csv')
+
+print(len(allform_list))
+print(len(unique_allform))
+print(df_final)
